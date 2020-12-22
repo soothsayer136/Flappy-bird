@@ -31,12 +31,37 @@ var scor = new Audio();
 fly.src = "sound/fly.mp3"
 scor.src = "sound/score.mp3"
 
+var isPaused = false;
 
 document.addEventListener("keydown", moveUp);
+window.addEventListener("keydown", pauseGameKeyHandler, false)
+  function pauseGameKeyHandler (e) {
+      var keycode = e.keyCode;
+      console.log(keycode)
+      switch(keycode) {
+          case 80:
+              togglePause();
+              break;
+      }
+  }
 
-function moveUp () {
+  function togglePause(){
+      isPaused = !isPaused;
+      ctx.font = "50px Verdana"
+      ctx.fillText("PAUSED", 50, 200);
+    //   console.log("hello")
+      draw();
+  }
+
+
+
+function moveUp (e) {
+    var keycode = e.keyCode
+    switch(keycode){
+        case 32:
     bY -=25;
     fly.play();
+    }
 }
 
 var pipe = [];
@@ -48,6 +73,9 @@ pipe[0] = {
 
 
 function draw () {
+    if(isPaused) {
+        return;
+    }
     ctx.drawImage(bg,0,0);
 
     for(var i =0; i<pipe.length; i++){
@@ -75,7 +103,7 @@ function draw () {
 }
     
 
-    ctx.drawImage(fg, 0, canvas.height-fg.height); //remaining height is from where fg will start
+    ctx.drawImage(fg, 0, canvas.height-fg.height); 
 
     ctx.drawImage(bird, bX, bY);
 
@@ -84,8 +112,9 @@ function draw () {
     ctx.fillStyle = "#000"
     ctx.font = "20px Verdana"
     ctx.fillText("Score : "+score,10,canvas.height-20);
-
+    if(!isPaused){
     requestAnimationFrame(draw)
+    }
 }
 
 draw();
