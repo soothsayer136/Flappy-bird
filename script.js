@@ -15,7 +15,7 @@ pipeNorth.src = "image/pipeNorth.png";
 pipeSouth.src = "image/pipeSouth.png";
 
 var gap = 100;
-var constant = pipeNorth.height+gap;
+var constant;
 
 var bX = 10;
 var bY = 150;
@@ -38,6 +38,7 @@ function moveUp () {
     bY -=25;
     fly.play();
 }
+
 var pipe = [];
 pipe[0] = {
     x:canvas.width,
@@ -50,6 +51,7 @@ function draw () {
     ctx.drawImage(bg,0,0);
 
     for(var i =0; i<pipe.length; i++){
+        constant= pipeNorth.height+gap,
         ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y)
     ctx.drawImage(pipeSouth,  pipe[i].x , pipe[i].y+constant) //gap + pipeNorth height is where pipeSouth will start
         pipe[i].x--;
